@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.mr-2 {
+  margin-right: 0.5rem !important;
+}
+
+body .ui-panel .ui-panel-titlebar {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+@media (max-width: 640px) {
+  .ui-datatable-reflow .ui-column-title {
+    text-decoration-line: underline;
+    font-weight: bold;
+    font-size: large;
+  }
+}
+
+.ui-cell-editor-output > .field {
+  border-bottom: 1px gray dashed;
+}

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Geisternetze melden und bergen<ui:insert name="title"></ui:insert></title>
+		<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	</h:head>
+
+    <h:body>
+        <div id="header">
+			<p:toolbar style="background-color: transparent; border: none;">
+				<p:toolbarGroup>
+					<p:linkButton value="Geisternetze melden" outcome="index" icon="pi pi-home" styleClass="mr-2" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:linkButton value="Geisternetze" outcome="ghostnets" icon="pi pi-list"
+					rendered="#{loginController.isLoggedIn()}" styleClass="ui-button-success mr-2" />
+					<p:linkButton value="Login" outcome="login" icon="pi pi-user"
+						rendered="#{!loginController.isLoggedIn()}" />
+					<p:commandButton value="Logout" action="#{loginController.logout}"
+						icon="pi pi-user" rendered="#{loginController.isLoggedIn()}" />
+				</p:toolbarGroup>
+			</p:toolbar>
+        </div>
+
+        <div id="content">
+			<p:panel>
+				<f:facet name="header">
+					<h1><ui:insert name="content-header"></ui:insert></h1>
+				</f:facet>
+	            <ui:insert name="content"></ui:insert>
+				<f:facet name="footer">
+					Bitte beachten Sie: <br /> Diese Seite ist nur ein Entwurf!
+				</f:facet>
+			</p:panel>
+        </div>
+    </h:body>
+</html>

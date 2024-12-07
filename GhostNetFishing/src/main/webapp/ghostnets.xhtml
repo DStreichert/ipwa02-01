@@ -1,0 +1,195 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/template.xhtml">
+		
+	<ui:define name="title"> - Liste aller Geisternetze</ui:define>
+	<ui:define name="content-header">Liste aller Geisternetze</ui:define>
+	<ui:define name="content">
+		<h:form id="form">
+			<p:growl id="msgs" life="10000" showDetail="true" skipDetailIfEqualsSummary="true" />
+			<p:dataTable id="ghostnets" var="net" reflow="true"
+				value="#{ghostnetTableController.ghostnets}" editable="true"
+				style="margin-bottom:20px" rows="20" paginator="true" rowsPerPageTemplate="10,20,50,{ShowAll|'Alle'}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="{startRecord}-{endRecord} von {totalRecords} Einträgen">
+
+				<p:ajax event="rowEdit"
+					listener="#{ghostnetTableController.onRowEdit}"
+					update=":form:msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{ghostnetTableController.onRowCancel}"
+					update=":form:msgs" />
+
+				<p:column headerText="ID" width="45" field="id">
+					<h:outputText value="#{net.id}" />
+				</p:column>
+
+				<p:column headerText="GPS-Koordinaten" field="latitude" filterBy="#{net.latitude} #{net.longitude}">
+					<p:cellEditor>
+						<f:facet name="output">
+								<div class="field">
+								<div style="font-weight: bold;">Breitengrad (Latitude)</div>
+								<h:outputText rendered="#{net.latitude == null}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.latitude}" style="width:100%" label="Breitengrad (Latitude)" />°
+							</div>
+							<div class="field">
+								<div style="font-weight: bold;">Längengrad (Longitude)</div>
+								<h:outputText rendered="#{net.longitude == null}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.longitude}" style="width:100%"
+									label="Längengrad (Longitude)" />°
+							</div>
+						</f:facet>
+						<f:facet name="input">
+							<div class="field">
+								<p:outputLabel for="@next" value="Breitengrad (Latitude)" /><br />
+								<p:inputNumber value="#{net.latitude}" style="width:100%"
+									label="Breitengrad (Latitude)" minValue="-90.000000"
+									maxValue="90.000000" decimalSeparator="."
+									thousandSeparator="," symbol=" °" symbolPosition="s"
+									decimalPlaces="6" required="true" emptyValue="empty" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="@next" value="Längengrad (Longitude)" /><br />
+								<p:inputNumber value="#{net.longitude}" style="width:100%"
+									label="Längengrad (Longitude)" minValue="-180.000000"
+									maxValue="180.000000" decimalSeparator="."
+									thousandSeparator="," symbol=" °" symbolPosition="s"
+									decimalPlaces="6" required="true" emptyValue="empty" />
+							</div>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Status" field="state">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{net.state}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{net.state}" style="width:100%" id="selectstatemenu">
+								<f:selectItems
+									value="#{ghostnetTableController.ghostnetStateList}"
+									var="status" itemLabel="#{status}" itemValue="#{status}" />
+   								</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="Netzabmasse" field="width" filterBy="#{net.width} #{net.height}">
+					<p:cellEditor>
+						<f:facet name="output">									
+							<div class="field">
+								<div style="font-weight: bold;">Netzbreite</div>
+								<h:outputText rendered="#{net.width == null}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.width}" style="width:100%" label="Netzbreite">
+									<f:convertNumber type="currency" currencySymbol="m" />
+								</h:outputText>
+							</div>
+							<div class="field">
+								<div style="font-weight: bold;">Netzhöhe</div>
+								<h:outputText rendered="#{net.height == null}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.height}" style="width:100%"
+									label="Netzhöhe">
+									<f:convertNumber type="currency" currencySymbol="m" />
+								</h:outputText>
+							</div>
+						</f:facet>
+						<f:facet name="input">
+							<div class="field">
+								<p:outputLabel for="@next" value="Netzbreite" /><br />
+								<p:inputNumber value="#{net.width}" style="width:100%"
+								symbol=" m" symbolPosition="s" emptyValue="empty" required="true"
+								minValue="0.00" decimalSeparator="," label="Netzbreite" />
+							</div>
+							<div class="field">
+								<p:outputLabel for="@next" value="Netzhöhe" /><br />
+								<p:inputNumber value="#{net.height}" style="width:100%"
+								symbol=" m" symbolPosition="s" emptyValue="empty" required="true"
+								minValue="0.00" decimalSeparator="," label="Netzhöhe" />
+							</div>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Meldende Person" field="contact.name" filterBy="#{net.contact.name} #{net.contact.tel}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<div class="field">
+								<div style="font-weight: bold;">Name</div>
+								<h:outputText rendered="#{net.contact.name == ''}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.contact.name}"
+									style="width:100%" label="Name" />
+							</div>
+							<div class="field">
+								<div style="font-weight: bold;">Telefon-Nummer</div>
+								<h:outputText rendered="#{net.contact.tel == ''}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.contact.tel}" style="width:100%"
+									label="Telefon-Nummer" />
+							</div>
+						</f:facet>
+						<f:facet name="input">
+							<p:outputPanel
+								rendered="#{net.reportingUser.id == ghostnetTableController.currentUser.user.id}">
+								<div class="field">
+									<p:outputLabel for="@next" value="Name" /><br />
+									<p:inputText value="#{net.contact.name}" style="width:100%"
+										label="Name" />
+								</div>
+								<div class="field">
+									<p:outputLabel for="@next" value="Telefon-Nummer" /><br />
+									<p:inputText value="#{net.contact.tel}" style="width:100%"
+										label="Telefon-Nummer" />
+								</div>
+							</p:outputPanel>
+							<h:outputText rendered="#{net.reportingUser.id != ghostnetTableController.currentUser.user.id}"
+								value="Die Daten der meldenden Person können nachträglich nur vom meldenden Benutzer bearbeitet werden."
+								escape="false" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="Kontaktperson" field="retrievingContact.name" filterBy="#{net.retrievingContact.name} #{net.retrievingContact.tel}">
+					<p:cellEditor>
+						<f:facet name="output">									
+							<div class="field">
+								<div style="font-weight: bold;">Name</div>
+								<h:outputText rendered="#{net.retrievingContact.name == ''}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.retrievingContact.name}"
+									style="width:100%" label="Name"  />
+							</div>
+							<div class="field">
+								<div style="font-weight: bold;">Telefon-Nummer</div>
+								<h:outputText rendered="#{net.retrievingContact.tel == ''}" value="&lt;br /&gt;" escape="false" />
+								<h:outputText value="#{net.retrievingContact.tel}" style="width:100%"
+									label="Telefon-Nummer" />
+							</div>
+						</f:facet>
+						<f:facet name="input">
+							<p:outputPanel id="retrievingContactFields">
+								<div class="field">
+									<p:outputLabel for="@next" value="Name" /><br />
+									<p:inputText value="#{net.retrievingContact.name}"
+										style="width:100%" required="#{net.state.name != 'Gemeldet'}"
+										label="Name" />
+								</div>
+								<div class="field">
+									<p:outputLabel for="@next" value="Telefon-Nummer" /><br />										
+									<p:inputText value="#{net.retrievingContact.tel}"
+										style="width:100%" required="#{net.state.name != 'Gemeldet'}"
+										label="Telefon-Nummer" />										
+								</div>
+							</p:outputPanel>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column style="width:6rem">
+					<p:rowEditor editTitle="Zeile bearbeiten" cancelTitle="Bearbeiten abbrechen"
+						saveTitle="Zeile speichern" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

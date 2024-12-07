@@ -1,11 +1,102 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-<h:head>
-  <title>Facelet Title</title>
-</h:head>
-<h:body>
-  Hallo Welt!
-</h:body>
-</html>
-
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/template.xhtml">
+	
+	<ui:define name="title"> - Neues Geisternetz melden!</ui:define>
+	<ui:define name="content-header">Neues Geisternetz melden!</ui:define>
+	<ui:define name="content">
+		<h:form id="editGhostnet">
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:growl id="msgs" life="10000" showDetail="true" skipDetailIfEqualsSummary="true" />
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Breitengrad (Latitude):" for="latitude" />
+					</p:column>
+					<p:column styleClass="ui-g-12 ui-md-8 ui-lg-8">
+						<p:inputNumber id="latitude" name="latitude"
+							value="#{ghostnetController.newghostnet.latitude}"							
+							label="Breitengrad (Latitude):" minValue="-90.000000"
+							maxValue="90.000000" decimalSeparator="."
+							thousandSeparator="," symbol=" °" symbolPosition="s"
+							decimalPlaces="6" required="true" emptyValue="empty">
+						</p:inputNumber>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Längengrad (Longitude):" for="longitude" />
+					</p:column>
+					<p:column styleClass="ui-g-12 ui-md-8 ui-lg-8">
+						<p:inputNumber id="longitude" name="longitude"
+							value="#{ghostnetController.newghostnet.longitude}"
+							label="Längengrad (Longitude):" minValue="-180.000000"
+							maxValue="180.000000" decimalSeparator="."
+							thousandSeparator="," symbol=" °" symbolPosition="s"
+							decimalPlaces="6" required="true" emptyValue="empty">
+						</p:inputNumber>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Breite des Netzes:" for="width" />
+					</p:column>
+					<p:column styleClass="ui-g-12 ui-md-8 ui-lg-8">
+						<p:inputNumber id="width" name="width" label="Breite des Netzes:"
+						value="#{ghostnetController.newghostnet.width}"
+						symbol=" m" symbolPosition="s" emptyValue="empty" required="true"
+						minValue="0.00" decimalSeparator="," />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Höhe des Netzes:" for="height" />
+					</p:column>
+					<p:column styleClass="ui-g-12 ui-md-8 ui-lg-8">
+						<p:inputNumber id="height" name="height" label="Höhe des Netzes:"
+							value="#{ghostnetController.newghostnet.height}"
+							symbol=" m" symbolPosition="s" emptyValue="empty" required="true"
+							minValue="0.00" decimalSeparator=",">
+						</p:inputNumber>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Name des Meldenden:" for="name" />
+					</p:column>
+					<p:column styleClass="ui-g-12 ui-md-8 ui-lg-8">
+						<p:inputText id="name" name="name"
+							label="Name des Meldenden:"
+							value="#{ghostnetController.newghostnet.contact.name}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Telefonnummer des Meldenden:" for="tel" />
+					</p:column>
+					<p:column styleClass="ui-g-12 ui-md-8 ui-lg-8">
+						<p:inputText id="tel" name="tel" type="tel"
+							label="Telefonnummer des Meldenden:"
+							value="#{ghostnetController.newghostnet.contact.tel}">
+						</p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column></p:column>
+					<p:column>
+						<p:commandButton action="#{ghostnetController.report}" update="@(.ui-panelgrid)" process="@this"
+							value="Melden" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="Zurücksetzen" update="@(.ui-panelgrid)"
+							process="@this" styleClass="mr-2 ui-button-outlined">
+							<p:resetInput target="@form" />
+						</p:commandButton>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
