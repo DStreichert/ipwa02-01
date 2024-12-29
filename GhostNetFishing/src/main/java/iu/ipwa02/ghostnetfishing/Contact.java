@@ -1,4 +1,4 @@
-package iu.ipwh02.ghostnetfishing;
+package iu.ipwa02.ghostnetfishing;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 /**
- * This class represents a user, stores basic data about the user and offers
+ * This class represents a user contact record, stores basic data about the contact and offers
  * methods for processing this data
  */
 @Entity

@@ -1,4 +1,4 @@
-package iu.ipwh02.ghostnetfishing;
+package iu.ipwa02.ghostnetfishing;
 import java.io.Serializable;
 
 import jakarta.faces.application.FacesMessage;
@@ -47,14 +47,6 @@ public class LoginController implements Serializable {
 		this.password = password;
 	}
 
-//	public void checkLogin() {
-//		if (!currentUser.isLoggedIn()) {
-//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Bitte loggen Sie sich ein."));
-//			LoginController.NavigateTo("login.xhtml?faces-redirect=true");
-//		}
-//
-//	}
-
 	public String logout() {
 		currentUser.reset();
 		return "index.xhtml?faces-redirect=true";
@@ -84,13 +76,5 @@ public class LoginController implements Serializable {
 
 	public boolean isLoggedIn() {
 		return currentUser.isLoggedIn();
-	}
-
-	public static void main(String[] args) {
-		if (args.length != 2) {
-			System.err.println("Usage: java LoginController user pass");
-			System.exit(1);
-		}
-		System.out.println(App.hashPassword(args[0], args[1], salt));
 	}
 }

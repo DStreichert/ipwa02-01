@@ -1,4 +1,4 @@
-package iu.ipwh02.ghostnetfishing;
+package iu.ipwa02.ghostnetfishing;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

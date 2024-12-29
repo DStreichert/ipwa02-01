@@ -1,4 +1,4 @@
-package iu.ipwh02.ghostnetfishing;
+package iu.ipwa02.ghostnetfishing;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -38,8 +38,6 @@ public abstract class AbstractDAO<T extends IDatabaseEntity> implements AutoClos
 	}
 
 	public List<T> findAll() {
-//		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-//		CriteriaQuery<T> cq = criteriaBuilder.createQuery(typeParameterClass);
 		return entityManager
 				.createQuery("select a from " + typeParameterClass.toString().substring(6) + " a", typeParameterClass)
 				.getResultList();

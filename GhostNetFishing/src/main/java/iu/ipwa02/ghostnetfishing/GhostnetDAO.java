@@ -1,4 +1,4 @@
-package iu.ipwh02.ghostnetfishing;
+package iu.ipwa02.ghostnetfishing;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 

@@ -1,4 +1,4 @@
-package iu.ipwh02.ghostnetfishing;
+package iu.ipwa02.ghostnetfishing;
 import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
@@ -54,7 +54,6 @@ public class GhostnetController implements Serializable {
 			if (this.currentUser.isLoggedIn()) {
 				gh.setReportingUser(this.currentUser.getUser());
 			}
-			// Wenn
 			if (StringUtils.isEmpty(gh.getContact().getName()) && StringUtils.isEmpty(gh.getContact().getTel())) {
 				gh.setContact(null);
 			}
